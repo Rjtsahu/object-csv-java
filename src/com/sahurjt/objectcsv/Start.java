@@ -13,11 +13,18 @@ public class Start {
 		try {
 			List<String> data = FileHelper.readFileByLine(FILE_PATH);
 			System.out.println(data);
-			
-			testAnnotation();
+
+			// testAnnotation();
+
+			testProject(data);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void testProject(List<String> lines) throws GenericModelMappingException {
+		CsvHolder holder = ObjectCsv.getInstance().from(lines).getCsvHolderforClass(SampleModel.class);
+		System.out.println(holder.getCsvRecords());
 	}
 
 	private static void testAnnotation() {

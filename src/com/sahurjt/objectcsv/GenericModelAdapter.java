@@ -47,14 +47,15 @@ public final class GenericModelAdapter<T> {
 		return classInstance;
 	}
 
-	protected void MapDictionaryToObject() throws GenericModelMappingException {
+	protected T MapDictionaryToObject() throws GenericModelMappingException {
 		if (this.dictionary == null)
 			throw new GenericModelMappingException(
 					"Dictionary is null.It must be assigned before calling map function.");
 		MapDictionaryToObject(this.dictionary);
+		return classInstance;
 	}
 
-	protected void MapDictionaryToObject(Dictionary<String, String> dictionary) {
+	protected T MapDictionaryToObject(Dictionary<String, String> dictionary) {
 		this.dictionary = dictionary;
 		// complete logic to map
 		try {
@@ -63,6 +64,7 @@ public final class GenericModelAdapter<T> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return classInstance;
 	}
 
 	/// assign dict values to model

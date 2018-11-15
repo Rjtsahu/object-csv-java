@@ -17,3 +17,5 @@
 #### additional features
 
 --  able to parse .csv having comma  in the field  by "data, another" filtering
+
+--- try to remove/segerigate all operation happeing in constructor eg (populateContent)

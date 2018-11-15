@@ -13,7 +13,7 @@ public class SampleModel {
 	public String valueDate;
 
 	@CsvParameter(value = "Reference No")
-	public int refNo;
+	public String refNo;
 
 	@CsvParameter(value = "Description")
 	public String description;
@@ -22,10 +22,10 @@ public class SampleModel {
 	public String debitAmount;
 
 	@CsvParameter(value = "Credit Amount")
-	public int creditAmount;
+	public String creditAmount;
 
 	@CsvParameter(value = "Running Balance")
-	public double runningBalance;
+	public String runningBalance;
 
 	@Override
 	public String toString() {

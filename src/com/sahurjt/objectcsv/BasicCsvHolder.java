@@ -36,6 +36,7 @@ public class BasicCsvHolder {
 		this.delimiterType = delimiterType;
 		this.content = new ArrayList<Dictionary<String, String>>();
 		this.populateContent(lines);
+		this.rowCount = lines.size();
 	}
 
 	public List<String> getHeaders() {
@@ -54,7 +55,7 @@ public class BasicCsvHolder {
 		return delimiterType;
 	}
 
-	public List<?> getContent() {
+	public List<Dictionary<String, String>> getContent() {
 		return content;
 	}
 
@@ -73,7 +74,7 @@ public class BasicCsvHolder {
 			for (int i = 0; i < headers.size(); i++) {
 				if (i >= fields.size())
 					break;
-				d.put(headers.get(i), fields.get(i));
+				d.put(headers.get(i), fields.get(i)); /// fix for !containsHeaderRow
 			}
 			content.add(d);
 		}
