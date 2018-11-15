@@ -1,7 +1,5 @@
 package com.sahurjt.objectcsv;
 
-import javax.annotation.Generated;
-
 import com.sahurjt.objectcsv.annotations.CsvModel;
 import com.sahurjt.objectcsv.annotations.CsvParameter;
 

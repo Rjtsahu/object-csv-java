@@ -17,7 +17,7 @@ import com.sahurjt.objectcsv.annotations.CsvParameter;
  * ie without dictionary 
  * */
 
-public class GenericModelAdapter<T> {
+public final class GenericModelAdapter<T> {
 
 	/// variable holding instance of class generic class T.
 	private T classInstance;

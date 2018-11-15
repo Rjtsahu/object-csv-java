@@ -12,40 +12,31 @@ import java.util.List;
  * some of common csv properties.
  * here the datatype will be string for every field
  * */
-public class BasicCsvHolder<T> {
-
-	private T objectType;
+public class BasicCsvHolder {
 
 	private List<String> headers;
+
 	private int rowCount;
+
 	private int coloumnCount;
+
 	private CsvDelimiter delimiterType;
+
+	// TODO
+	private char stringDelimiter = '"';
+
+	protected boolean containsHeaderRow = true;
+
 	private List<Dictionary<String, String>> content;
 
-	private List<T> modelContent;
-
-	public BasicCsvHolder(T objectType) {
-		this.objectType = objectType;
-		delimiterType = CsvDelimiter.COMMA;
-		content = new ArrayList<Dictionary<String, String>>();
-		System.out.println(objectType.getClass());
+	public BasicCsvHolder(List<String> lines) {
+		this(lines, CsvDelimiter.COMMA);
 	}
 
-	public T TestGeneric(Class<T> cls) {
-		try {
-
-			T t = cls.newInstance();
-			Field prop1 = t.getClass().getField("PropertyName");
-			System.out.println("type : " + prop1.getType());
-			System.out.println("prop value: " + prop1.get(t));
-			prop1.set(t, "New Value");
-			System.out.println("prop with new set value: " + prop1.get(t));
-			return t;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	public BasicCsvHolder(List<String> lines, CsvDelimiter delimiterType) {
+		this.delimiterType = delimiterType;
+		this.content = new ArrayList<Dictionary<String, String>>();
+		this.populateContent(lines);
 	}
 
 	public List<String> getHeaders() {
@@ -64,20 +55,18 @@ public class BasicCsvHolder<T> {
 		return delimiterType;
 	}
 
-	public T getGenericType() {
-		return objectType;
-	}
-
-	public List<Dictionary<String, String>> getContent() {
+	public List<?> getContent() {
 		return content;
 	}
 
-	public void Test(List<String> lines) {
-
-		prepareHeader(getRowFields(lines.get(0), delimiterType));
-		// remove header from lines
-		lines.remove(0);
-
+	private void populateContent(List<String> lines) {
+		
+		if (containsHeaderRow) {
+			prepareHeader(getRowFields(lines.get(0), delimiterType));
+			// remove header from lines
+			lines.remove(0);
+		}
+		
 		for (String line : lines) {
 			Dictionary<String, String> d = new Hashtable<String, String>();
 			List<String> fields = getRowFields(line, delimiterType);
