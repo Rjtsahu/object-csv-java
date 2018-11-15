@@ -1,6 +1,5 @@
 package com.sahurjt.objectcsv;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
@@ -8,9 +7,9 @@ import java.util.Hashtable;
 import java.util.List;
 
 /*
- * This is model which will hold csv file in table format, with having
- * some of common csv properties.
- * here the datatype will be string for every field
+ * This is model which will hold CSV file in table format, with having
+ * some of common CSV properties.
+ * here the DataType will be string for every field
  * */
 public class BasicCsvHolder {
 
@@ -23,17 +22,17 @@ public class BasicCsvHolder {
 	private CsvDelimiter delimiterType;
 
 	// TODO
-	private char stringDelimiter = '"';
+	/// private char stringDelimiter = '"';
 
 	protected boolean containsHeaderRow = true;
 
 	private List<Dictionary<String, String>> content;
 
-	public BasicCsvHolder(List<String> lines) {
+	protected BasicCsvHolder(List<String> lines) {
 		this(lines, CsvDelimiter.COMMA);
 	}
 
-	public BasicCsvHolder(List<String> lines, CsvDelimiter delimiterType) {
+	protected BasicCsvHolder(List<String> lines, CsvDelimiter delimiterType) {
 		this.delimiterType = delimiterType;
 		this.content = new ArrayList<Dictionary<String, String>>();
 		this.populateContent(lines);

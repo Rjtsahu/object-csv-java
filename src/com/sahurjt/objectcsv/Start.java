@@ -1,14 +1,8 @@
 package com.sahurjt.objectcsv;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
-
-import com.sahurjt.objectcsv.annotations.CsvModel;
-import com.sahurjt.objectcsv.annotations.CsvParameter;
 
 public class Start {
 
@@ -18,19 +12,8 @@ public class Start {
 		// TODO Auto-generated method stub
 		try {
 			List<String> data = FileHelper.readFileByLine(FILE_PATH);
-
-			BasicCsvHolder<CsvHelper> a = new BasicCsvHolder<CsvHelper>(new CsvHelper());
-			// a.Test(data);
-
-			CsvHelper hel = a.TestGeneric(CsvHelper.class);
-			System.out.print("in main: " + hel.PropertyName);
-
-			List<Dictionary<String, String>> content = a.getContent();
-			// System.out.print(content);
-
-			for (Method f : BasicCsvHolder.class.getMethods()) {
-				// System.out.println(f);
-			}
+			System.out.println(data);
+			
 			testAnnotation();
 		} catch (Exception e) {
 			e.printStackTrace();

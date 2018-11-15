@@ -22,9 +22,6 @@ public final class GenericModelAdapter<T> {
 	/// variable holding instance of class generic class T.
 	private T classInstance;
 
-	/// class variable representing class
-	private Class<T> classGeneric;
-
 	/// Dictionary that holds key/value pair of data
 	private Dictionary<String, String> dictionary;
 
@@ -35,7 +32,6 @@ public final class GenericModelAdapter<T> {
 	}
 
 	public GenericModelAdapter(Class<T> classGeneric) throws GenericModelMappingException {
-		this.classGeneric = classGeneric;
 		try {
 			classInstance = classGeneric.newInstance();
 		} catch (IllegalAccessException | InstantiationException e) {
@@ -78,7 +74,7 @@ public final class GenericModelAdapter<T> {
 		boolean useColumnIndexing = !csvAnnotation.headerPresent();
 
 		for (Field field : classInstance.getClass().getFields()) {
-			
+
 			String fieldId = getFieldIdToSearchInDictionary(field, useColumnIndexing);
 			if (fieldId == null)
 				return;
