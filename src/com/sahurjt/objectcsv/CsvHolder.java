@@ -23,14 +23,14 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 		content = new ArrayList<T>();
 	}
 
-	public List<T> getCsvRecords() throws GenericModelMappingException{
+	public List<T> getCsvRecords() throws GenericModelMappingException {
 		if (content == null)
 			populateContent();
 
 		return this.content;
 	}
 
-	public void populateContent() throws GenericModelMappingException  {
+	public void populateContent() throws GenericModelMappingException {
 		for (int rowIndex = 0; rowIndex < this.getRowCount(); rowIndex++) {
 			int coloumnCount;
 			if (containsHeaderRow) {
@@ -49,7 +49,7 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 					if (rowValue == null)
 						continue;
 					String value = rowValue.get(headerName);
-					rowContent.put(headerName, value);
+					rowContent.put(headerName, value == null ? "" : value);
 				}
 				content.add(genericModelAdapter.MapDictionaryToObject(rowContent));
 			}

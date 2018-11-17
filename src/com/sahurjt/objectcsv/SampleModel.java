@@ -5,7 +5,7 @@ import com.sahurjt.objectcsv.annotations.CsvParameter;
 
 @CsvModel(headerPresent = true)
 public class SampleModel {
-
+	
 	@CsvParameter(value = "Txn Date")
 	public String txnDate;
 
@@ -13,19 +13,19 @@ public class SampleModel {
 	public String valueDate;
 
 	@CsvParameter(value = "Reference No")
-	public String refNo;
+	public int refNo;
 
 	@CsvParameter(value = "Description")
 	public String description;
 
 	@CsvParameter(value = "Debit Amount")
-	public String debitAmount;
+	public double debitAmount;
 
 	@CsvParameter(value = "Credit Amount")
-	public String creditAmount;
+	public double creditAmount;
 
 	@CsvParameter(value = "Running Balance")
-	public String runningBalance;
+	public double runningBalance;
 
 	@Override
 	public String toString() {

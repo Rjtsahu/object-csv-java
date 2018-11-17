@@ -60,13 +60,13 @@ public class BasicCsvHolder {
 	}
 
 	private void populateContent(List<String> lines) {
-		
+
 		if (containsHeaderRow) {
 			prepareHeader(getRowFields(lines.get(0), delimiterType));
 			// remove header from lines
 			lines.remove(0);
 		}
-		
+
 		for (String line : lines) {
 			Dictionary<String, String> d = new Hashtable<String, String>();
 			List<String> fields = getRowFields(line, delimiterType);
@@ -86,6 +86,14 @@ public class BasicCsvHolder {
 	}
 
 	private List<String> getRowFields(String row, CsvDelimiter seperator) {
-		return Arrays.asList(row.split(String.valueOf(CsvDelimiter.getDelimiterChar(seperator))));
+		String[] cols = row.split(String.valueOf(CsvDelimiter.getDelimiterChar(seperator)));
+		
+		List<String> tokens = new ArrayList<String>();
+		
+		for (String token : cols) {
+			tokens.add(token.trim());
+		}
+		
+		return tokens;
 	}
 }

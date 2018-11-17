@@ -1,8 +1,10 @@
 package com.sahurjt.objectcsv;
 
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Dictionary;
-
+import java.util.Date;
 import com.sahurjt.objectcsv.annotations.CsvColumn;
 import com.sahurjt.objectcsv.annotations.CsvModel;
 import com.sahurjt.objectcsv.annotations.CsvParameter;
@@ -24,6 +26,8 @@ public final class GenericModelAdapter<T> {
 
 	/// Dictionary that holds key/value pair of data
 	private Dictionary<String, String> dictionary;
+
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
 	public GenericModelAdapter(Class<T> classGeneric, Dictionary<String, String> dictionary)
 			throws GenericModelMappingException {
@@ -99,12 +103,16 @@ public final class GenericModelAdapter<T> {
 				field.set(classInstance, Boolean.valueOf(fieldValue));
 			} else if (field.getType() == double.class) {
 				field.set(classInstance, Double.valueOf(fieldValue));
+			} else if (field.getType() == Date.class) {
+				DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+				field.set(classInstance, df.parse(fieldValue));
 			} else {
 				field.set(classInstance, fieldValue);
 			}
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(
+					"Unable to parse " + fieldValue + " to type " + field.getType() + " | Reason: " + e.getMessage());
 			return false;
 		}
 	}
@@ -123,6 +131,6 @@ public final class GenericModelAdapter<T> {
 				return null;
 			keyToSearch = String.valueOf(csvParamAnnotation.value());
 		}
-		return keyToSearch;
+		return keyToSearch.trim();
 	}
 }
