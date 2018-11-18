@@ -17,20 +17,20 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 	}
 
 	protected CsvHolder(List<String> lines, Class<T> genericClass, CsvDelimiter delimiterType)
-			throws GenericModelMappingException {
+			throws ObjectCsvException {
 		super(lines, delimiterType);
 		this.genericClass = genericClass;
 		content = new ArrayList<T>();
 	}
 
-	public List<T> getCsvRecords() throws GenericModelMappingException {
+	public List<T> getCsvRecords() throws ObjectCsvException {
 		if (content == null)
 			populateContent();
 
 		return this.content;
 	}
 
-	public void populateContent() throws GenericModelMappingException {
+	public void populateContent() throws ObjectCsvException {
 		for (int rowIndex = 0; rowIndex < this.getRowCount(); rowIndex++) {
 			int coloumnCount;
 			if (containsHeaderRow) {

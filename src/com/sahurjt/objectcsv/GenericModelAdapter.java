@@ -30,16 +30,16 @@ public final class GenericModelAdapter<T> {
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
 	public GenericModelAdapter(Class<T> classGeneric, Dictionary<String, String> dictionary)
-			throws GenericModelMappingException {
+			throws ObjectCsvException {
 		this(classGeneric);
 		this.dictionary = dictionary;
 	}
 
-	public GenericModelAdapter(Class<T> classGeneric) throws GenericModelMappingException {
+	public GenericModelAdapter(Class<T> classGeneric) throws ObjectCsvException {
 		try {
 			classInstance = classGeneric.newInstance();
 		} catch (IllegalAccessException | InstantiationException e) {
-			throw new GenericModelMappingException("Exception in creating instance : " + e.getMessage());
+			throw new ObjectCsvException("Exception in creating instance : " + e.getMessage());
 		}
 	}
 
@@ -51,9 +51,9 @@ public final class GenericModelAdapter<T> {
 		return classInstance;
 	}
 
-	protected T MapDictionaryToObject() throws GenericModelMappingException {
+	protected T MapDictionaryToObject() throws ObjectCsvException {
 		if (this.dictionary == null)
-			throw new GenericModelMappingException(
+			throw new ObjectCsvException(
 					"Dictionary is null.It must be assigned before calling map function.");
 		MapDictionaryToObject(this.dictionary);
 		return classInstance;
