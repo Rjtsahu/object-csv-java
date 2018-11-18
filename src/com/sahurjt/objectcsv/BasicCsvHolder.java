@@ -10,7 +10,7 @@ import java.util.List;
  * some of common CSV properties.
  * here the DataType will be string for every field
  * */
-public class BasicCsvHolder {
+class BasicCsvHolder {
 
 	private List<String> headers;
 

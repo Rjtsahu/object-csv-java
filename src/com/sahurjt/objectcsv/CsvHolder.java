@@ -10,13 +10,13 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 	private Class<T> genericClass;
 	private List<T> content;
 
-	protected CsvHolder(List<String> lines, Class<T> genericClass) {
+	CsvHolder(List<String> lines, Class<T> genericClass) {
 		super(lines);
 		this.genericClass = genericClass;
 		content = new ArrayList<T>();
 	}
 
-	protected CsvHolder(List<String> lines, Class<T> genericClass, CsvDelimiter delimiterType)
+	CsvHolder(List<String> lines, Class<T> genericClass, CsvDelimiter delimiterType)
 			throws ObjectCsvException {
 		super(lines, delimiterType);
 		this.genericClass = genericClass;
@@ -30,7 +30,7 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 		return this.content;
 	}
 
-	public void populateContent() throws ObjectCsvException {
+   void populateContent() throws ObjectCsvException {
 		for (int rowIndex = 0; rowIndex < this.getRowCount(); rowIndex++) {
 			int coloumnCount;
 			if (containsHeaderRow) {
