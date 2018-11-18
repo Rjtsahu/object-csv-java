@@ -1,13 +1,11 @@
 package com.sahurjt.objectcsv;
 
-import javax.annotation.Generated;
-
 import com.sahurjt.objectcsv.annotations.CsvModel;
 import com.sahurjt.objectcsv.annotations.CsvParameter;
 
 @CsvModel(headerPresent = true)
 public class SampleModel {
-
+	
 	@CsvParameter(value = "Txn Date")
 	public String txnDate;
 
@@ -21,10 +19,10 @@ public class SampleModel {
 	public String description;
 
 	@CsvParameter(value = "Debit Amount")
-	public String debitAmount;
+	public double debitAmount;
 
 	@CsvParameter(value = "Credit Amount")
-	public int creditAmount;
+	public double creditAmount;
 
 	@CsvParameter(value = "Running Balance")
 	public double runningBalance;

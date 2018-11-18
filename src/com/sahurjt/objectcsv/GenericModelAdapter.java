@@ -1,8 +1,10 @@
 package com.sahurjt.objectcsv;
 
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Dictionary;
-
+import java.util.Date;
 import com.sahurjt.objectcsv.annotations.CsvColumn;
 import com.sahurjt.objectcsv.annotations.CsvModel;
 import com.sahurjt.objectcsv.annotations.CsvParameter;
@@ -17,29 +19,27 @@ import com.sahurjt.objectcsv.annotations.CsvParameter;
  * ie without dictionary 
  * */
 
-public class GenericModelAdapter<T> {
+public final class GenericModelAdapter<T> {
 
 	/// variable holding instance of class generic class T.
 	private T classInstance;
 
-	/// class variable representing class
-	private Class<T> classGeneric;
-
 	/// Dictionary that holds key/value pair of data
 	private Dictionary<String, String> dictionary;
 
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
+
 	public GenericModelAdapter(Class<T> classGeneric, Dictionary<String, String> dictionary)
-			throws GenericModelMappingException {
+			throws ObjectCsvException {
 		this(classGeneric);
 		this.dictionary = dictionary;
 	}
 
-	public GenericModelAdapter(Class<T> classGeneric) throws GenericModelMappingException {
-		this.classGeneric = classGeneric;
+	public GenericModelAdapter(Class<T> classGeneric) throws ObjectCsvException {
 		try {
 			classInstance = classGeneric.newInstance();
 		} catch (IllegalAccessException | InstantiationException e) {
-			throw new GenericModelMappingException("Exception in creating instance : " + e.getMessage());
+			throw new ObjectCsvException("Exception in creating instance : " + e.getMessage());
 		}
 	}
 
@@ -51,14 +51,15 @@ public class GenericModelAdapter<T> {
 		return classInstance;
 	}
 
-	protected void MapDictionaryToObject() throws GenericModelMappingException {
+	protected T MapDictionaryToObject() throws ObjectCsvException {
 		if (this.dictionary == null)
-			throw new GenericModelMappingException(
+			throw new ObjectCsvException(
 					"Dictionary is null.It must be assigned before calling map function.");
 		MapDictionaryToObject(this.dictionary);
+		return classInstance;
 	}
 
-	protected void MapDictionaryToObject(Dictionary<String, String> dictionary) {
+	protected T MapDictionaryToObject(Dictionary<String, String> dictionary) {
 		this.dictionary = dictionary;
 		// complete logic to map
 		try {
@@ -67,6 +68,7 @@ public class GenericModelAdapter<T> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return classInstance;
 	}
 
 	/// assign dict values to model
@@ -78,7 +80,7 @@ public class GenericModelAdapter<T> {
 		boolean useColumnIndexing = !csvAnnotation.headerPresent();
 
 		for (Field field : classInstance.getClass().getFields()) {
-			
+
 			String fieldId = getFieldIdToSearchInDictionary(field, useColumnIndexing);
 			if (fieldId == null)
 				return;
@@ -101,12 +103,16 @@ public class GenericModelAdapter<T> {
 				field.set(classInstance, Boolean.valueOf(fieldValue));
 			} else if (field.getType() == double.class) {
 				field.set(classInstance, Double.valueOf(fieldValue));
+			} else if (field.getType() == Date.class) {
+				DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+				field.set(classInstance, df.parse(fieldValue));
 			} else {
 				field.set(classInstance, fieldValue);
 			}
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(
+					"Unable to parse " + fieldValue + " to type " + field.getType() + " | Reason: " + e.getMessage());
 			return false;
 		}
 	}
@@ -125,6 +131,6 @@ public class GenericModelAdapter<T> {
 				return null;
 			keyToSearch = String.valueOf(csvParamAnnotation.value());
 		}
-		return keyToSearch;
+		return keyToSearch.trim();
 	}
 }

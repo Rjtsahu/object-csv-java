@@ -1,7 +1,7 @@
 package com.sahurjt.objectcsv;
 
 public enum CsvDelimiter {
-	COMMA, PIPE, DOLAR;
+	COMMA, PIPE, COLON,SPACE,TAB;
 
 	public static char getDelimiterChar(CsvDelimiter delimiterType) {
 		switch (delimiterType) {
@@ -9,8 +9,12 @@ public enum CsvDelimiter {
 			return ',';
 		case PIPE:
 			return '|';
-		case DOLAR:
-			return '$';
+		case COLON:
+			return ':';
+		case SPACE:
+			return ' ';
+		case TAB:
+			return '	';
 		default:
 			return ',';
 		}
