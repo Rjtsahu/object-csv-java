@@ -5,20 +5,21 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
+import com.sahurjt.objectcsv.annotations.CsvModel;
+
 public final class CsvHolder<T> extends BasicCsvHolder {
 
 	private Class<T> genericClass;
 	private List<T> content;
 
 	CsvHolder(List<String> lines, Class<T> genericClass) {
-		super(lines);
+		super(lines, isHeaderPresent(genericClass));
 		this.genericClass = genericClass;
 		content = new ArrayList<T>();
 	}
 
-	CsvHolder(List<String> lines, Class<T> genericClass, CsvDelimiter delimiterType)
-			throws ObjectCsvException {
-		super(lines, delimiterType);
+	CsvHolder(List<String> lines, Class<T> genericClass, CsvDelimiter delimiterType) throws ObjectCsvException {
+		super(lines, isHeaderPresent(genericClass),delimiterType);
 		this.genericClass = genericClass;
 		content = new ArrayList<T>();
 	}
@@ -30,29 +31,50 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 		return this.content;
 	}
 
-   void populateContent() throws ObjectCsvException {
+	private static boolean isHeaderPresent(Class<?> genericClass) {
+		try {
+			CsvModel csvAnnotation = genericClass.newInstance().getClass().getAnnotation(CsvModel.class);
+			if (csvAnnotation == null)
+				return false;
+			return csvAnnotation.headerPresent();
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	void populateContent() throws ObjectCsvException {
 		for (int rowIndex = 0; rowIndex < this.getRowCount(); rowIndex++) {
+
+			Dictionary<String, String> rowValue = getContent().get(rowIndex);
+			GenericModelAdapter<T> genericModelAdapter = new GenericModelAdapter<T>(genericClass);
+			Dictionary<String, String> rowContent = new Hashtable<String, String>();
+
 			int coloumnCount;
 			if (containsHeaderRow) {
-				// Make this workable for !containsHeaderRow
 				coloumnCount = this.getColoumnCount();
-				GenericModelAdapter<T> genericModelAdapter = new GenericModelAdapter<T>(genericClass);
-				Dictionary<String, String> rowContent = new Hashtable<String, String>();
-				/// lets consider simple case where header exist
-				for (int colIndex = 0; colIndex < coloumnCount; colIndex++) {
-
-					String headerName = getHeaders().get(colIndex);
-					if (headerName == null)
-						continue;
-					Dictionary<String, String> rowValue = getContent().get(rowIndex);
-
-					if (rowValue == null)
-						continue;
-					String value = rowValue.get(headerName);
-					rowContent.put(headerName, value == null ? "" : value);
-				}
-				content.add(genericModelAdapter.MapDictionaryToObject(rowContent));
+			} else {
+				coloumnCount = rowValue == null ? 0 : rowValue.size();
 			}
+
+			for (int colIndex = 0; colIndex < coloumnCount; colIndex++) {
+
+				String headerName;
+				if (containsHeaderRow) {
+					headerName = getHeaders().get(colIndex);
+				} else {
+					headerName = String.valueOf(colIndex);
+				}
+
+				if (headerName == null)
+					continue;
+
+				if (rowValue == null)
+					continue;
+
+				String value = rowValue.get(headerName);
+				rowContent.put(headerName, value == null ? "" : value);
+			}
+			content.add(genericModelAdapter.MapDictionaryToObject(rowContent));
 		}
 	}
 

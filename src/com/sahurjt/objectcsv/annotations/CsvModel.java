@@ -11,5 +11,5 @@ public @interface CsvModel {
 
 	/// Indicates weather the CSV has a header row, if not the column will be mapped based on 
 	/// #CsvParameter.coloumnIndex and position of CSV row.
-	public boolean headerPresent() default false;
+	public boolean headerPresent() default true;
 }

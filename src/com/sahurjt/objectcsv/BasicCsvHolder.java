@@ -23,19 +23,20 @@ class BasicCsvHolder {
 	// TODO
 	/// private char stringDelimiter = '"';
 
-	protected boolean containsHeaderRow = true;
+	protected boolean containsHeaderRow;
 
 	private List<Dictionary<String, String>> content;
 
-	protected BasicCsvHolder(List<String> lines) {
-		this(lines, CsvDelimiter.COMMA);
+	protected BasicCsvHolder(List<String> lines, boolean containsHeader) {
+		this(lines, containsHeader, CsvDelimiter.COMMA);
 	}
 
-	protected BasicCsvHolder(List<String> lines, CsvDelimiter delimiterType) {
+	protected BasicCsvHolder(List<String> lines, boolean containsHeader, CsvDelimiter delimiterType) {
 		this.delimiterType = delimiterType;
 		this.content = new ArrayList<Dictionary<String, String>>();
 		this.populateContent(lines);
 		this.rowCount = lines.size();
+		this.containsHeaderRow = containsHeader;
 	}
 
 	public List<String> getHeaders() {
@@ -64,35 +65,45 @@ class BasicCsvHolder {
 			prepareHeader(getRowFields(lines.get(0), delimiterType));
 			// remove header from lines
 			lines.remove(0);
+		} else {
+			this.coloumnCount = getRowFields(lines.get(0), delimiterType).size();
 		}
 
 		for (String line : lines) {
-			Dictionary<String, String> d = new Hashtable<String, String>();
+			Dictionary<String, String> rowDictionary = new Hashtable<String, String>();
 			List<String> fields = getRowFields(line, delimiterType);
 
-			for (int i = 0; i < headers.size(); i++) {
+			for (int i = 0; i < this.coloumnCount; i++) {
 				if (i >= fields.size())
 					break;
-				d.put(headers.get(i), fields.get(i)); /// fix for !containsHeaderRow
+
+				if (containsHeaderRow) {
+					rowDictionary.put(headers.get(i), fields.get(i));
+				} else {
+					rowDictionary.put(String.valueOf(i), fields.get(i));
+				}
 			}
-			content.add(d);
+			this.content.add(rowDictionary);
 		}
 	}
 
 	private void prepareHeader(List<String> fields) {
-		headers = fields;
-		coloumnCount = fields.size();
+		this.headers = fields;
+		this.coloumnCount = fields.size();
 	}
 
 	private List<String> getRowFields(String row, CsvDelimiter seperator) {
+		if (row == null)
+			return new ArrayList<String>();
+
 		String[] cols = row.split(String.valueOf(CsvDelimiter.getDelimiterChar(seperator)));
-		
+
 		List<String> tokens = new ArrayList<String>();
-		
+
 		for (String token : cols) {
 			tokens.add(token.trim());
 		}
-		
+
 		return tokens;
 	}
 }
