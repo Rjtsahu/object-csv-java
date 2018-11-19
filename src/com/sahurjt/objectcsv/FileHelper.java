@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class FileHelper {
+class FileHelper {
 
 	private static final String NEW_LINE_CHAR = "\n";
 

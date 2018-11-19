@@ -20,3 +20,7 @@
 *.tar.gz
 *.rar
 /target/
+
+# ignore testing files
+src/Main.java
+src/SampleMatchModel.java

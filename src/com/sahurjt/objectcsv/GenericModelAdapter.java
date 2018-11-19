@@ -19,7 +19,7 @@ import com.sahurjt.objectcsv.annotations.CsvParameter;
  * ie without dictionary 
  * */
 
-public final class GenericModelAdapter<T> {
+final class GenericModelAdapter<T> {
 
 	/// variable holding instance of class generic class T.
 	private T classInstance;
@@ -83,7 +83,7 @@ public final class GenericModelAdapter<T> {
 
 			String fieldId = getFieldIdToSearchInDictionary(field, useColumnIndexing);
 			if (fieldId == null)
-				return;
+				continue;
 
 			String fieldValue = dictionary.get(fieldId);
 			if (fieldValue == null)
