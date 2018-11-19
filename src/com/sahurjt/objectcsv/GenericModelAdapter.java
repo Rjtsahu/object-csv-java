@@ -83,7 +83,7 @@ final class GenericModelAdapter<T> {
 
 			String fieldId = getFieldIdToSearchInDictionary(field, useColumnIndexing);
 			if (fieldId == null)
-				return;
+				continue;
 
 			String fieldValue = dictionary.get(fieldId);
 			if (fieldValue == null)

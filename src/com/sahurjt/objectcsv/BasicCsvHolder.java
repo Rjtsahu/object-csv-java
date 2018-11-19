@@ -34,9 +34,10 @@ class BasicCsvHolder {
 	protected BasicCsvHolder(List<String> lines, boolean containsHeader, CsvDelimiter delimiterType) {
 		this.delimiterType = delimiterType;
 		this.content = new ArrayList<Dictionary<String, String>>();
-		this.populateContent(lines);
 		this.rowCount = lines.size();
 		this.containsHeaderRow = containsHeader;
+		/// populate model from given lines.
+		this.populateContent(lines);
 	}
 
 	public List<String> getHeaders() {
