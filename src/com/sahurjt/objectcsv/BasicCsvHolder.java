@@ -66,6 +66,7 @@ class BasicCsvHolder {
 			prepareHeader(getRowFields(lines.get(0), delimiterType));
 			// remove header from lines
 			lines.remove(0);
+			this.rowCount = this.rowCount - 1;
 		} else {
 			this.coloumnCount = getRowFields(lines.get(0), delimiterType).size();
 		}
