@@ -133,9 +133,9 @@ class BasicCsvHolder {
 	/**
 	 * Convert a given row into list of token by spliting it using some delimiter.
 	 * 
-	 *  @param row  A row in CSV.
-	 *  @param seperator delimiter {@link CsvDelimiter}
-	 *  */
+	 * @param row       A row in CSV.
+	 * @param seperator delimiter {@link CsvDelimiter}
+	 */
 	private List<String> getRowFields(String row, CsvDelimiter seperator) {
 		if (row == null)
 			return new ArrayList<String>();
