@@ -1,3 +1,8 @@
+/**
+ *  @author Rajat Sahu 
+ *  https://github.com/Rjtsahu/object-csv-java
+ *  ObjectCsv Java Library : Handy library to map CSV document to java model. 
+ * */
 package com.sahurjt.objectcsv;
 
 import java.util.ArrayList;
@@ -7,9 +12,22 @@ import java.util.List;
 
 import com.sahurjt.objectcsv.annotations.CsvModel;
 
+/**
+ * Class to hold CSV data in generic object T.
+ * 
+ * @param T Model containg CsvModel annotation.
+ * @see {CsvModel}
+ */
 public final class CsvHolder<T> extends BasicCsvHolder {
 
+	/**
+	 * Generic class holder.
+	 */
 	private Class<T> genericClass;
+
+	/**
+	 * Rows in CSV file casted to type T
+	 */
 	private List<T> content;
 
 	CsvHolder(List<String> lines, Class<T> genericClass) {
@@ -19,11 +37,18 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 	}
 
 	CsvHolder(List<String> lines, Class<T> genericClass, CsvDelimiter delimiterType) throws ObjectCsvException {
-		super(lines, isHeaderPresent(genericClass),delimiterType);
+		super(lines, isHeaderPresent(genericClass), delimiterType);
 		this.genericClass = genericClass;
 		content = new ArrayList<T>();
 	}
 
+	/**
+	 * Populated content with CSV by parsing it to T.
+	 * 
+	 * @return Rows of CSV content casted to type T.
+	 * @throws ObjectCsvException in case of IllegalAccessException or
+	 *                            InstantiationException
+	 */
 	public List<T> getCsvRecords() throws ObjectCsvException {
 		if (content == null)
 			populateContent();
@@ -31,6 +56,14 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 		return this.content;
 	}
 
+	/**
+	 * Static helper method to check weather the generic model has headerPresent
+	 * true or false.
+	 * 
+	 * @return true when given model has {@link CsvModel#headerPresent()} is
+	 *         true. Method will return false when given class doesn't have CsvModel
+	 *         attribute.
+	 */
 	private static boolean isHeaderPresent(Class<?> genericClass) {
 		try {
 			CsvModel csvAnnotation = genericClass.newInstance().getClass().getAnnotation(CsvModel.class);
@@ -42,6 +75,12 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 		}
 	}
 
+	/**
+	 * This funtion will iterate through all rows/columns and map class properties
+	 * with {@link BasicCsvHolder#getContent()} values.
+	 * 
+	 * @throws ObjectCsvException In case of any generic exception.
+	 */
 	void populateContent() throws ObjectCsvException {
 		for (int rowIndex = 0; rowIndex < this.getRowCount(); rowIndex++) {
 
