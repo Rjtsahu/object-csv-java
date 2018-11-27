@@ -4,7 +4,8 @@ A simple Library to convert CSV format to Java model.
 </b>
 
 <h2>How to use ?</h2>
-<b> for sample example project visit <a href="@">here</a> </a>
+<b> For sample example project visit <a href="https://github.com/Rjtsahu/object-csv-java-example">here</a> </a>
+<br/>
 <br/>
 
 <div>
