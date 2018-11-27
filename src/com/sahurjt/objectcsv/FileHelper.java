@@ -8,7 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
-
+/**
+* Helper class to read text file ss string or rows of string.
+*/
 class FileHelper {
 
 	private static final String NEW_LINE_CHAR = "\n";
