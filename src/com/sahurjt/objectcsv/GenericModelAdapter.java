@@ -1,3 +1,8 @@
+/**
+ *  @author Rajat Sahu 
+ *  https://github.com/Rjtsahu/object-csv-java
+ *  ObjectCsv Java Library : Handy library to map CSV document to java model. 
+ * */
 package com.sahurjt.objectcsv;
 
 import java.lang.reflect.Field;
@@ -9,28 +14,30 @@ import com.sahurjt.objectcsv.annotations.CsvColumn;
 import com.sahurjt.objectcsv.annotations.CsvModel;
 import com.sahurjt.objectcsv.annotations.CsvParameter;
 
-/*
- * This class will help in assigning values to given property of generic model from given dictionary 
- * having common propertyName or annotation indicating property name. 
- * */
-
-/*
- * Make this class workable even when we don't have csv headers
- * ie without dictionary 
- * */
-
+/**
+ * This class will help in handling generic object by using JAVA reflection
+ * apis. This class will help in assigning values to given property of generic
+ * model from given dictionary having common propertyName or annotation
+ * indicating property name.
+ */
 final class GenericModelAdapter<T> {
 
-	/// variable holding instance of class generic class T.
+	/**
+	 * variable holding instance of class generic class T.
+	 */
 	private T classInstance;
 
-	/// Dictionary that holds key/value pair of data
+	/**
+	 * Dictionary that holds key/value pair of data.
+	 **/
 	private Dictionary<String, String> dictionary;
 
+	/**
+	 * Default date format in CSV, in future make it configurable by user input.
+	 */
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
-	public GenericModelAdapter(Class<T> classGeneric, Dictionary<String, String> dictionary)
-			throws ObjectCsvException {
+	public GenericModelAdapter(Class<T> classGeneric, Dictionary<String, String> dictionary) throws ObjectCsvException {
 		this(classGeneric);
 		this.dictionary = dictionary;
 	}
@@ -51,27 +58,41 @@ final class GenericModelAdapter<T> {
 		return classInstance;
 	}
 
+	/**
+	 * Primary method to map generic object,to be used when {@link this#dictionary}
+	 * is intialised in constructor.
+	 * 
+	 * @return Object T after mapping with dictionary.
+	 */
 	protected T MapDictionaryToObject() throws ObjectCsvException {
 		if (this.dictionary == null)
-			throw new ObjectCsvException(
-					"Dictionary is null.It must be assigned before calling map function.");
+			throw new ObjectCsvException("Dictionary is null.It must be assigned before calling map function.");
 		MapDictionaryToObject(this.dictionary);
 		return classInstance;
 	}
 
+	/**
+	 * Primary method to map generic object to dictionary
+	 * 
+	 * @param dictionary header-value pair.
+	 * @return Object T after mapping with dictionary.
+	 */
 	protected T MapDictionaryToObject(Dictionary<String, String> dictionary) {
 		this.dictionary = dictionary;
 		// complete logic to map
 		try {
 			PopulateModelFromDictionary();
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return classInstance;
 	}
 
-	/// assign dict values to model
+	/**
+	 * This method will assign every field in classInstance with same key in
+	 * dictionary (if exists), also converts to proper datatype as declared in class
+	 * field.
+	 */
 	private void PopulateModelFromDictionary() throws IllegalArgumentException, IllegalAccessException {
 
 		CsvModel csvAnnotation = classInstance.getClass().getAnnotation(CsvModel.class);
@@ -94,6 +115,14 @@ final class GenericModelAdapter<T> {
 
 	}
 
+	/**
+	 * Get the data type of given field and tries to convert fieldValue to that
+	 * type. Currently int,bool,double,string and date data-types are available.
+	 * 
+	 * @param field      Field of class.
+	 * @param fieldValue value to be assigned to field.
+	 * @return boolean representing operation success status.
+	 */
 	private boolean AssignValue(Field field, String fieldValue) {
 
 		try {
@@ -117,6 +146,17 @@ final class GenericModelAdapter<T> {
 		}
 	}
 
+	/**
+	 * Get key associated with field by looking it in {@link CsvParameter}
+	 * annotation on thatv filed,if columnIndexing is used then look into
+	 * {@link CsvColumn} annotation
+	 * 
+	 * @param field             field of class.
+	 * @param useColumnIndexing weather to use column indexing,will be true when
+	 *                          there is no header row present in CSV but it is
+	 *                          input provided by user.
+	 * @return string representing key.
+	 */
 	private String getFieldIdToSearchInDictionary(final Field field, boolean useColumnIndexing) {
 
 		String keyToSearch;
