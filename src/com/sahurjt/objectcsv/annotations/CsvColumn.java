@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Anotation interface for Model which are having a CSV column,this anntation
+ * Anotation interface for a field of Model which are having a CSV column,this anntation
  * will be used in case the header row is not present in CSV.
  */
 @Retention(RetentionPolicy.RUNTIME)
