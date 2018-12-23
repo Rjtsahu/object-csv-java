@@ -140,7 +140,7 @@ final class GenericModelAdapter<T> {
 			CsvColumn csvParamAnnotation = field.getAnnotation(CsvColumn.class);
 			if (csvParamAnnotation == null)
 				return null;
-			keyToSearch = String.valueOf(csvParamAnnotation.coloumnIndex());
+			keyToSearch = String.valueOf(csvParamAnnotation.columnIndex());
 		} else {
 			CsvParameter csvParamAnnotation = field.getAnnotation(CsvParameter.class);
 			if (csvParamAnnotation == null)

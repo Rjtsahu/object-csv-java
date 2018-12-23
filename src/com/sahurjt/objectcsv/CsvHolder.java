@@ -15,7 +15,6 @@ import com.sahurjt.objectcsv.annotations.CsvModel;
 /**
  * Class to hold CSV data in generic object T.
  * 
- * @param T Model containg CsvModel annotation.
  * @see {CsvModel}
  */
 public final class CsvHolder<T> extends BasicCsvHolder {
@@ -39,7 +38,7 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 	CsvHolder(List<String> lines, Class<T> genericClass, CsvDelimiter delimiterType) throws ObjectCsvException {
 		super(lines, isHeaderPresent(genericClass), delimiterType);
 		this.genericClass = genericClass;
-		content = new ArrayList<T>();
+		content = new ArrayList<>();
 	}
 
 	/**
@@ -86,16 +85,16 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 
 			Dictionary<String, String> rowValue = getContent().get(rowIndex);
 			GenericModelAdapter<T> genericModelAdapter = new GenericModelAdapter<T>(genericClass);
-			Dictionary<String, String> rowContent = new Hashtable<String, String>();
+			Dictionary<String, String> rowContent = new Hashtable<>();
 
-			int coloumnCount;
+			int columnCount;
 			if (containsHeaderRow) {
-				coloumnCount = this.getColumnCount();
+				columnCount = this.getColumnCount();
 			} else {
-				coloumnCount = rowValue == null ? 0 : rowValue.size();
+				columnCount = rowValue == null ? 0 : rowValue.size();
 			}
 
-			for (int colIndex = 0; colIndex < coloumnCount; colIndex++) {
+			for (int colIndex = 0; colIndex < columnCount; colIndex++) {
 
 				String headerName;
 				if (containsHeaderRow) {

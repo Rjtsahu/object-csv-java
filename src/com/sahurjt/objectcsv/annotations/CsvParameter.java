@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Anotation interface for a field of Model which is having a CSV column header
+ * Annotation interface for a field of Model which is having a CSV column header
  * name same as CsvParameter value.
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -21,5 +21,5 @@ public @interface CsvParameter {
 	/**
 	 * Name of header in CSV from this field has to map.
 	 */
-	public String value() default "";
+	String value() default "";
 }

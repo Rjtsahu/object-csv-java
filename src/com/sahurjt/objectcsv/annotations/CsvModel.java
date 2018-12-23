@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation interface for a class to define that the class belongs to
- * ObjectCsv parsable model.
+ * ObjectCsv parse able model.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -20,8 +20,8 @@ public @interface CsvModel {
 
 	/**
 	 * Indicates weather the CSV has a header row, if not the column will be mapped
-	 * based on {@link CsvParameter.coloumnIndex} and position of CSV row. Default
+	 * based on {@link CsvParameter.columnIndex} and position of CSV row. Default
 	 * value is true.
 	 */
-	public boolean headerPresent() default true;
+	boolean headerPresent() default true;
 }
