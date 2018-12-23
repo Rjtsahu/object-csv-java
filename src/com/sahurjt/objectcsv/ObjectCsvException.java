@@ -7,7 +7,7 @@ package com.sahurjt.objectcsv;
 
 /**
  * Base Exception class for this library,it will handle all type all type of
- * expection being raised.
+ * exception being raised.
  */
 @SuppressWarnings("serial")
 public class ObjectCsvException extends Exception {
