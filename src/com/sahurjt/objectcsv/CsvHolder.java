@@ -90,7 +90,7 @@ public final class CsvHolder<T> extends BasicCsvHolder {
 
 			int coloumnCount;
 			if (containsHeaderRow) {
-				coloumnCount = this.getColoumnCount();
+				coloumnCount = this.getColumnCount();
 			} else {
 				coloumnCount = rowValue == null ? 0 : rowValue.size();
 			}
