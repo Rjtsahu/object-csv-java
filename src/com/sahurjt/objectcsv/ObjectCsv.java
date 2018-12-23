@@ -109,7 +109,7 @@ public class ObjectCsv {
 			throw new ObjectCsvException(
 					"Input csv data cannot be null,assign input using from() method before calling this method.");
 
-		CsvHolder<T> csvHolder = new CsvHolder<T>(lines, classInstance, delimiterType);
+		CsvHolder<T> csvHolder = new CsvHolder<>(lines, classInstance, delimiterType);
 		csvHolder.populateContent();
 		return csvHolder;
 	}

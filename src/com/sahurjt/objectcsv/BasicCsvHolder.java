@@ -1,7 +1,7 @@
 /**
- *  @author Rajat Sahu 
+ *  @author Rajat Sahu
  *  https://github.com/Rjtsahu/object-csv-java
- *  ObjectCsv Java Library : Handy library to map CSV document to java model. 
+ *  ObjectCsv Java Library : Handy library to map CSV document to java model.
  * */
 
 package com.sahurjt.objectcsv;
@@ -12,7 +12,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 /**
- * This class represent a simple datastructure to store CSV data and its
+ * This class represent a simple data-structure to store CSV data and its
  * associated details. It can be used as base class for other derived class such
  * as {@link CsvHolder}
  */
@@ -44,36 +44,36 @@ class BasicCsvHolder {
 	 * Boolean indicating weather header row contains in this CSV document, this
 	 * should be provided as user input.
 	 */
-	protected boolean containsHeaderRow;
+	boolean containsHeaderRow;
 
 	/**
 	 * List of row (dictionary) represnting all contents of CSV.
 	 */
 	private List<Dictionary<String, String>> content;
 
-	protected BasicCsvHolder(List<String> lines, boolean containsHeader) {
+	BasicCsvHolder(List<String> lines, boolean containsHeader) {
 		this(lines, containsHeader, CsvDelimiter.COMMA);
 	}
 
-	protected BasicCsvHolder(List<String> lines, boolean containsHeader, CsvDelimiter delimiterType) {
+	BasicCsvHolder(List<String> lines, boolean containsHeader, CsvDelimiter delimiterType) {
 		this.delimiterType = delimiterType;
-		this.content = new ArrayList<Dictionary<String, String>>();
+		this.content = new ArrayList<>();
 		this.rowCount = lines.size();
 		this.containsHeaderRow = containsHeader;
 
-		/** populate model from given lines. **/
+		/// populate model from given lines.
 		this.populateContent(lines);
 	}
 
-	public List<String> getHeaders() {
+	List<String> getHeaders() {
 		return headers;
 	}
 
-	public int getRowCount() {
+	int getRowCount() {
 		return rowCount;
 	}
 
-	public int getColoumnCount() {
+	int getColumnCount() {
 		return coloumnCount;
 	}
 
@@ -81,13 +81,13 @@ class BasicCsvHolder {
 		return delimiterType;
 	}
 
-	public List<Dictionary<String, String>> getContent() {
+	List<Dictionary<String, String>> getContent() {
 		return content;
 	}
 
 	/**
 	 * Populates {@link #content} from lines by parsing using {@link #delimiterType}
-	 * Also sets coloumnCount,rowCount and headers fields.
+	 * Also sets columnCount,rowCount and headers fields.
 	 * 
 	 * @param lines Csv data.
 	 **/
@@ -103,7 +103,7 @@ class BasicCsvHolder {
 		}
 
 		for (String line : lines) {
-			Dictionary<String, String> rowDictionary = new Hashtable<String, String>();
+			Dictionary<String, String> rowDictionary = new Hashtable<>();
 			List<String> fields = getRowFields(line, delimiterType);
 
 			for (int i = 0; i < this.coloumnCount; i++) {
@@ -134,15 +134,15 @@ class BasicCsvHolder {
 	 * Convert a given row into list of token by spliting it using some delimiter.
 	 * 
 	 * @param row       A row in CSV.
-	 * @param seperator delimiter {@link CsvDelimiter}
+	 * @param separator delimiter {@link CsvDelimiter}
 	 */
-	private List<String> getRowFields(String row, CsvDelimiter seperator) {
+	private List<String> getRowFields(String row, CsvDelimiter separator) {
 		if (row == null)
-			return new ArrayList<String>();
+			return new ArrayList<>();
 
-		String[] cols = row.split(String.valueOf(CsvDelimiter.getDelimiterChar(seperator)));
+		String[] cols = row.split(String.valueOf(CsvDelimiter.getDelimiterChar(separator)));
 
-		List<String> tokens = new ArrayList<String>();
+		List<String> tokens = new ArrayList<>();
 
 		for (String token : cols) {
 			tokens.add(token.trim());

@@ -20,3 +20,4 @@
 *.tar.gz
 *.rar
 /target/
+.idea/

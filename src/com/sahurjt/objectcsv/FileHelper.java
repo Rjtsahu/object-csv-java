@@ -28,10 +28,10 @@ class FileHelper {
 	 * @return lines in file as string.
 	 */
 	public static List<String> readFileByLine(String filePath)
-			throws IOException, URISyntaxException, FileNotFoundException {
+			throws IOException {
 		FileReader reader = new FileReader(getFile(filePath));
 		BufferedReader bufferedReader = new BufferedReader(reader);
-		List<String> linesInFile = new ArrayList<String>();
+		List<String> linesInFile = new ArrayList<>();
 
 		String line;
 		while ((line = bufferedReader.readLine()) != null) {
@@ -46,14 +46,14 @@ class FileHelper {
 	 * Reads .csv file from file system.
 	 * 
 	 * @param filePath file location it can be absolute or relative.
-	 * @retur file as string.
+	 * @return file as string.
 	 */
 	public static String readFileAsString(String filePath)
-			throws IOException, URISyntaxException, FileNotFoundException {
+			throws IOException {
 		List<String> linesInFile = readFileByLine(filePath);
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (String line : linesInFile) {
-			buffer.append(line + NEW_LINE_CHAR);
+			buffer.append(line).append(NEW_LINE_CHAR);
 		}
 		return buffer.toString();
 	}

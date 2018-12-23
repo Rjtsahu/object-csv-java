@@ -42,33 +42,12 @@ final class GenericModelAdapter<T> {
 		this.dictionary = dictionary;
 	}
 
-	public GenericModelAdapter(Class<T> classGeneric) throws ObjectCsvException {
+	GenericModelAdapter(Class<T> classGeneric) throws ObjectCsvException {
 		try {
 			classInstance = classGeneric.newInstance();
 		} catch (IllegalAccessException | InstantiationException e) {
 			throw new ObjectCsvException("Exception in creating instance : " + e.getMessage());
 		}
-	}
-
-	public void setDictionary(Dictionary<String, String> dictionary) {
-		this.dictionary = dictionary;
-	}
-
-	public T getModelInstance() {
-		return classInstance;
-	}
-
-	/**
-	 * Primary method to map generic object,to be used when {@link this#dictionary}
-	 * is intialised in constructor.
-	 * 
-	 * @return Object T after mapping with dictionary.
-	 */
-	protected T MapDictionaryToObject() throws ObjectCsvException {
-		if (this.dictionary == null)
-			throw new ObjectCsvException("Dictionary is null.It must be assigned before calling map function.");
-		MapDictionaryToObject(this.dictionary);
-		return classInstance;
 	}
 
 	/**
@@ -77,7 +56,7 @@ final class GenericModelAdapter<T> {
 	 * @param dictionary header-value pair.
 	 * @return Object T after mapping with dictionary.
 	 */
-	protected T MapDictionaryToObject(Dictionary<String, String> dictionary) {
+	T MapDictionaryToObject(Dictionary<String, String> dictionary) {
 		this.dictionary = dictionary;
 		// complete logic to map
 		try {
@@ -90,7 +69,7 @@ final class GenericModelAdapter<T> {
 
 	/**
 	 * This method will assign every field in classInstance with same key in
-	 * dictionary (if exists), also converts to proper datatype as declared in class
+	 * dictionary (if exists), also converts to proper dataType as declared in class
 	 * field.
 	 */
 	private void PopulateModelFromDictionary() throws IllegalArgumentException, IllegalAccessException {
@@ -121,9 +100,8 @@ final class GenericModelAdapter<T> {
 	 * 
 	 * @param field      Field of class.
 	 * @param fieldValue value to be assigned to field.
-	 * @return boolean representing operation success status.
 	 */
-	private boolean AssignValue(Field field, String fieldValue) {
+	private void AssignValue(Field field, String fieldValue) {
 
 		try {
 			if (field.getType() == int.class) {
@@ -138,11 +116,9 @@ final class GenericModelAdapter<T> {
 			} else {
 				field.set(classInstance, fieldValue);
 			}
-			return true;
 		} catch (Exception e) {
 			System.err.println(
 					"Unable to parse " + fieldValue + " to type " + field.getType() + " | Reason: " + e.getMessage());
-			return false;
 		}
 	}
 
@@ -164,7 +140,7 @@ final class GenericModelAdapter<T> {
 			CsvColumn csvParamAnnotation = field.getAnnotation(CsvColumn.class);
 			if (csvParamAnnotation == null)
 				return null;
-			keyToSearch = String.valueOf(csvParamAnnotation.coloumnIndex());
+			keyToSearch = String.valueOf(csvParamAnnotation.columnIndex());
 		} else {
 			CsvParameter csvParamAnnotation = field.getAnnotation(CsvParameter.class);
 			if (csvParamAnnotation == null)
